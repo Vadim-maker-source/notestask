@@ -4,6 +4,8 @@ import { getServerSession } from "@/lib/session";
 import { NoteForm } from "@/components/NoteForm";
 import { NoteCard } from "@/components/NoteCard";
 
+export const dynamic = 'force-dynamic';
+
 export default async function NotesPage() {
   const session = await getServerSession();
   if (!session?.user?.id) redirect("/login?callbackUrl=/notes");
