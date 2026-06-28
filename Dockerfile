@@ -6,7 +6,7 @@ WORKDIR /app
 # Установка зависимостей
 FROM base AS deps
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci && npm install prisma@6.19.3 @prisma/client@6.19.3
 
 # Генерация Prisma Client
 FROM base AS prisma
