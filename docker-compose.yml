@@ -41,8 +41,8 @@ services:
       - notes_network
     command: >
       sh -c "
-        npx prisma migrate deploy &&
-        npx prisma db seed &&
+        node node_modules/.bin/prisma migrate deploy &&
+        node node_modules/.bin/prisma db seed &&
         node server.js
       "
 
