@@ -1,0 +1,35 @@
+// Notes — CTF challenge data model
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String // bcrypt hash
+  settings  Json     @default("{\"theme\":\"light\",\"fontSize\":14}")
+  notes     Note[]
+  createdAt DateTime @default(now())
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  // Optional per-note metadata. Supports a "publicAccess" flag so individual
+  // notes can be shared in the public feed without exposing their content.
+  metadata  Json?
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+}
